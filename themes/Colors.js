@@ -1,5 +1,5 @@
 
-const colors = {
+export const pallete = {
     primaryBackgroundLight : '#00A86A',
     primaryBackgroundDark : '#00783F',
 
@@ -7,5 +7,4 @@ const colors = {
     secundaryBackgroundDark : '#4A626D',
 
     primaryTextColor : '#fff'
-    
 }

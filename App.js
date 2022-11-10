@@ -1,11 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
+
+import { pallete } from './themes/Colors'
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      
+      <View style={styles.balanceContainer}>
+
+        <Text>Balance Container</Text>
+
+      </View>
+
+      <View style={styles.inputContainer}>
+
+        <Text>Input Container</Text>
+
+      </View>
+      
     </View>
   );
 }
@@ -13,8 +25,22 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: pallete.secundaryBackgroundDark,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  balanceContainer: {
+    flex: 1,
+    backgroundColor: pallete.primaryBackgroundLight,
+    width: '100%',
+    borderRadius: 40,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  inputContainer: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
+
 });
