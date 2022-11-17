@@ -10,6 +10,20 @@ export default function App() {
 
   const [show, setShow] = useState(true)
 
+  const [movementList, setMovementList] = useState([])
+
+  const AddMovementHandler = (movementQuantity, movementDate, movementDescription) => {
+    setMovementList( currentItems => [
+      ...currentItems,(
+        {movement:movementQuantity, date: movementDate, description: movementDescription}
+      )
+    ])
+
+    console.log('movimiento -> ' + movementQuantity)
+    console.log('fecha -> ' + movementDate)
+    console.log('descripcion -> ' + movementDescription)
+  }
+
   const hideElementsForKeyboard = () => {
     setShow(!show)
     Keyboard.dismiss()
@@ -21,7 +35,7 @@ export default function App() {
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{flex: 1, width: '100%'}}
-          keyboardVerticalOffset={Platform.OS === "ios" ? -20 : -80}>
+          keyboardVerticalOffset={Platform.OS === "ios" ? -60 : -80}>
           
             <View style={styles.balanceContainer}>
 
@@ -43,7 +57,7 @@ export default function App() {
                 </View>
 
                 <MovementInput hideElementsForKeyboard={hideElementsForKeyboard}
-                              show={show} setShow={setShow}/>
+                    show={show} setShow={setShow} addMovement={AddMovementHandler}/>
 
               </View>
 
