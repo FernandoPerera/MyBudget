@@ -42,6 +42,8 @@ const MovementInput = ({ addMovement, hideElementsForKeyboard, show, setShow }) 
     } else {
       addMovement(movement.movement, movement.date.toLocaleDateString(), movement.description)
     }
+    hideElementsForKeyboard()
+    alert('Movimiento añadido con exito')
     setMovement({ movement: '', date: new Date(), description: '' })
     
   }
