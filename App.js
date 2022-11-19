@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard,
          Platform, Pressable} from 'react-native'
         
-import MovementInput from './components/MovementInput'
+import MovementInput from './components/input/MovementInput'
 
 import { pallete } from './themes/Colors'
 
@@ -25,8 +25,9 @@ export default function App() {
   }
 
   const hideElementsForKeyboard = () => {
-    setShow(!show)
-    Keyboard.dismiss()
+
+      setShow(!show)
+      Keyboard.dismiss()
   }
 
   return (
@@ -63,7 +64,6 @@ export default function App() {
 
             </View>
           </KeyboardAvoidingView>
-
       
     </View>
   )
