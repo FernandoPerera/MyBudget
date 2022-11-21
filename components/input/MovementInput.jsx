@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View, Pressable} from 'react-native'
+import { StyleSheet, Text, TextInput, View, Pressable, Platform} from 'react-native'
 import { pallete } from '../../themes/Colors'
 import { useState } from 'react'
 
@@ -43,18 +43,17 @@ const MovementInput = ({ addMovement, hideElementsForKeyboard, show, setShow }) 
       addMovement(movement.movement, movement.date.toLocaleDateString(), movement.description)
     }
     hideElementsForKeyboard()
-    alert('Movimiento añadido con exito')
     setMovement({ movement: '', date: new Date(), description: '' })
     
   }
 
   const showDatePicker = () => {
     setShowPicker(true);
-  };
+  }
 
   const hideDatePicker = () => {
     setShowPicker(false);
-  };
+  }
 
   return (
     <>
@@ -62,7 +61,7 @@ const MovementInput = ({ addMovement, hideElementsForKeyboard, show, setShow }) 
 
         <TextInput style={styles.rowInputs}
           placeholder='Movimiento...'
-          keyboardType='numbers-and-punctuation'
+          keyboardType={Platform.OS === 'ios' ? 'numbers-and-punctuation' : 'numeric'}
           onPressIn={() => !show ? null : setShow(!show)}
           onSubmitEditing={hideElementsForKeyboard}
           onChangeText={changeMovementHandler}
@@ -97,11 +96,11 @@ const MovementInput = ({ addMovement, hideElementsForKeyboard, show, setShow }) 
 
         <Pressable onPress={addMovementHandler}>
 
-        <View style={styles.pressableToAdd}>
+          <View style={styles.pressableToAdd}>
 
-            <Text>Añadir</Text>
+              <Text style={{fontSize: 14.5}}>Añadir</Text>
 
-        </View>
+          </View>
 
         </Pressable>
 
@@ -125,16 +124,16 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 10,
         width: 150,
-        height: 80,
+        height: Platform.OS === 'ios' ? 75 : 60,
         marginLeft: 15,
-        marginBottom: 52
+        marginBottom: 50
       },
       pressableToAdd: {
-        marginTop: 12,
+        marginTop: 9,
         marginLeft: 23,
         backgroundColor:pallete.primaryBackgroundDark,
         borderRadius: 12,
-        padding: Platform.OS === "ios" ? 17 : 12
+        padding: Platform.OS === "ios" ? 18.5 : 15
       }
 })
 

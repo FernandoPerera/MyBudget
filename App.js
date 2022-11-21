@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard,
-         Platform, Pressable} from 'react-native'
+         Platform, Pressable, Image} from 'react-native'
+
+import { v4 as uuidv4 } from 'uuid';
         
 import MovementInput from './components/input/MovementInput'
 
@@ -10,22 +12,23 @@ export default function App() {
 
   const [show, setShow] = useState(true)
 
+  const [transaction, setTransaction] = useState(0)
+
   const [movementList, setMovementList] = useState([])
 
-  const AddMovementHandler = (movementQuantity, movementDate, movementDescription) => {
+  // EDITAR LA VISUALIZACIÓN EN ANDROID
+
+  const addMovementHandler = (movementQuantity, movementDate, movementDescription) => {
     setMovementList( currentItems => [
       ...currentItems,(
-        {movement:movementQuantity, date: movementDate, description: movementDescription}
+        { id: uuidv4(), transaction:movementQuantity, date: movementDate, description: movementDescription}
       )
     ])
-
-    console.log('movimiento -> ' + movementQuantity)
-    console.log('fecha -> ' + movementDate)
-    console.log('descripcion -> ' + movementDescription)
+    let transactionQuantity = transaction
+    setTransaction( transactionQuantity += parseFloat(movementQuantity))
   }
 
   const hideElementsForKeyboard = () => {
-
       setShow(!show)
       Keyboard.dismiss()
   }
@@ -36,11 +39,42 @@ export default function App() {
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{flex: 1, width: '100%'}}
-          keyboardVerticalOffset={Platform.OS === "ios" ? -60 : -80}>
+          keyboardVerticalOffset={Platform.OS === "ios" ? -60 : -160}>
           
             <View style={styles.balanceContainer}>
 
-              <Text>Balance Container</Text>
+              <View style={styles.title}>
+
+                <Text style={{fontSize:18}}>MyBudget</Text>
+
+              </View>
+
+              <View style={styles.transactionContainer}>
+
+                {
+                movementList == 0
+                  ? <Text style={{textAlign:'center', fontSize: 17}}>
+                      No se han realizado transacciones
+                    </Text>
+                  : transaction >= 0 
+                    ? 
+                      <View style={{flexDirection: 'row'}}>
+                        <Image style={styles.imageStyle} source={require('./assets/bills.png')}/>
+                        <Text style={{flex: 1, textAlign:'center', fontSize: 30, marginTop: 13, color: pallete.primaryBackgroundDark}}>
+                          {transaction} €
+                        </Text>
+                      </View>
+                    : 
+                      <View style={{flexDirection: 'row'}}>
+                        <Image style={styles.imageStyle} source={require('./assets/money.png')}/>
+
+                        <Text style={{flex: 1, textAlign:'center', fontSize: 30, marginTop: 13, color: '#D12222'}}>
+                          {transaction} €
+                        </Text>
+                      </View>
+                }
+
+              </View>
 
             </View>
 
@@ -51,14 +85,14 @@ export default function App() {
                 <View style={styles.listbuttom}>
 
                   {show ? <Pressable style={styles.pressableToList}>
-                              <Text>Mostrar lista</Text>
+                              <Text style={{fontSize: 15}}>Mostrar lista</Text>
                           </Pressable>
                           : null}
 
                 </View>
 
                 <MovementInput hideElementsForKeyboard={hideElementsForKeyboard}
-                    show={show} setShow={setShow} addMovement={AddMovementHandler}/>
+                    show={show} setShow={setShow} addMovement={addMovementHandler}/>
 
               </View>
 
@@ -80,9 +114,33 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: pallete.primaryBackgroundLight,
     width: '100%',
-    borderRadius: 40,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    alignItems: 'center'
+  },
+  title: {
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: '85%',
+    borderRadius: 12,
+    marginTop: 55,
+    backgroundColor: pallete.primaryBackgroundDark
+  },
+  transactionContainer: {
+    flex: 2,
+    alignItems:'center',
+    justifyContent:'center',
+    width: 250,
+    height: 150,
+    borderRadius: 12,
+    marginVertical: 70,
+    backgroundColor: pallete.secundaryBackgroundLight
+  },  
+  imageStyle: {
+    flex: 0.5,
+    marginLeft: 40
+    
   },
   inputContainer: {
     flex: 1,
@@ -105,5 +163,6 @@ const styles = StyleSheet.create({
     backgroundColor: pallete.primaryBackgroundDark,
     borderRadius: 12,
     padding: 20,
+    marginBottom: 12
   },
 });
