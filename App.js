@@ -5,9 +5,9 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, Keyboard,
 import { v4 as uuidv4 } from 'uuid';
         
 import MovementInput from './components/input/MovementInput'
-import MovementList from './components/list/movementList';
+import MovementList from './components/list/MovementList';
 
-import { pallete } from './themes/Colors'
+import { palette } from './themes/Colors'
 
 export default function App() {
 
@@ -17,8 +17,6 @@ export default function App() {
   const [transaction, setTransaction] = useState(0)
 
   const [movementList, setMovementList] = useState([])
-
-  // EDITAR LA VISUALIZACIÓN EN ANDROID
 
   const addMovementHandler = (movementQuantity, movementDate, movementDescription) => {
     setMovementList( currentItems => [
@@ -66,7 +64,7 @@ export default function App() {
                     ? 
                       <View style={{flexDirection: 'row'}}>
                         <Image style={styles.imageStyle} source={require('./assets/bills.png')}/>
-                        <Text style={{flex: 1, textAlign:'center', fontSize: 30, marginTop: 13, color: pallete.primaryBackgroundDark}}>
+                        <Text style={{flex: 1, textAlign:'center', fontSize: 30, marginTop: 13, color: palette.primaryBackgroundDark}}>
                           {transaction} €
                         </Text>
                       </View>
@@ -101,7 +99,8 @@ export default function App() {
                   animationType='fade'
                   visible={showModal}>
                 
-                  <MovementList />
+                  <MovementList movementList={movementList} changeVisibilityOfModal={changeVisibilityOfModal}/>
+
                 </Modal>
 
                 <MovementInput hideElementsForKeyboard={hideElementsForKeyboard}
@@ -119,13 +118,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: pallete.secundaryBackgroundDark,
+    backgroundColor: palette.secundaryBackgroundDark,
     alignItems: 'center',
     justifyContent: 'center'
   },
   balanceContainer: {
     flex: 1,
-    backgroundColor: pallete.primaryBackgroundLight,
+    backgroundColor: palette.primaryBackgroundLight,
     width: '100%',
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
@@ -138,7 +137,7 @@ const styles = StyleSheet.create({
     width: '85%',
     borderRadius: 12,
     marginTop: 55,
-    backgroundColor: pallete.primaryBackgroundDark
+    backgroundColor: palette.primaryBackgroundDark
   },
   transactionContainer: {
     flex: 2,
@@ -148,7 +147,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 12,
     marginVertical: 70,
-    backgroundColor: pallete.secundaryBackgroundLight
+    backgroundColor: palette.secundaryBackgroundLight
   },  
   imageStyle: {
     flex: 0.5,
@@ -161,7 +160,7 @@ const styles = StyleSheet.create({
   },
   datesContainer: {
     flex: 2,
-    backgroundColor: pallete.primaryBackgroundLight,
+    backgroundColor: palette.primaryBackgroundLight,
     width: '75%',
     borderRadius: 15,
     marginVertical: 50,
@@ -172,7 +171,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pressableToList: {
-    backgroundColor: pallete.primaryBackgroundDark,
+    backgroundColor: palette.primaryBackgroundDark,
     borderRadius: 12,
     padding: 20,
     marginBottom: 12

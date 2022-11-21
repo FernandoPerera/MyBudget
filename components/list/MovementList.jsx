@@ -1,7 +1,9 @@
-import { View, Text, Pressable, Image } from "react-native"
+import { View, Text, Pressable, Image, StyleSheet, ScrollView } from "react-native"
 
+import { palette } from '../../themes/Colors'
+import Transaction from "./Transaction"
 
-const MovementList = () => {
+const MovementList = ({ movementList, changeVisibilityOfModal }) => {
   return (
     
     <View style={styles.modalContainer}>
@@ -9,7 +11,7 @@ const MovementList = () => {
         <View style={styles.modalHeader}>
 
             <Pressable onPress={changeVisibilityOfModal}>
-                <Image style={styles.exitModal} source={require('./assets/backward.png')}/>
+                <Image style={styles.exitModal} source={require('../../assets/backward.png')}/>
             </Pressable>
 
             <View style={styles.headerName}>
@@ -19,7 +21,25 @@ const MovementList = () => {
         </View>
 
         <View style={styles.transactionList}>
-            <Text>Transacciones</Text>
+
+            {
+                movementList.length == 0
+                    ? 
+                        <View style={styles.emptyList}>
+                            <Text style={{fontSize: 17}}>No se han añadido registros</Text>
+                        </View>
+                    :
+                        movementList.map( (transaction) => (
+                            <Transaction 
+                                key={transaction.id}
+                                id={transaction.id}
+                                movement={transaction.transaction}
+                                date={transaction.date}
+                                descrption={transaction.description}
+                                movementList={movementList}/>
+                        ))
+            }
+
         </View>
 
     </View>
@@ -31,35 +51,44 @@ const styles = StyleSheet.create({
     modalContainer: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: pallete.primaryBackgroundDark
-      },  
-      modalHeader: {
+        backgroundColor: palette.primaryBackgroundDark
+    },  
+    modalHeader: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-      },
-      headerName: {
+    },
+    headerName: {
         padding: 20,
         borderRadius: 12,
         marginLeft: 35,
         marginRight: 75,
-        backgroundColor: pallete.secundaryBackgroundDark
-      },
-      exitModal: {
+        backgroundColor: palette.secundaryBackgroundDark
+    },
+    exitModal: {
         borderRadius: 100,
         width: 60,
         height: 60,
         padding: 10
-      },
-      transactionList: {
+    },
+    transactionList: {
         flex: 5,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         width: '85%',
         borderRadius: 25,
         marginBottom: 30,
-        backgroundColor:pallete.secundaryBackgroundDark
-      }
+        backgroundColor:palette.secundaryBackgroundDark
+    },
+    emptyList: {
+        alignItems:'center',
+        justifyContent: 'center',
+        width: '85%',
+        height: '60%',
+        marginVertical: 25,
+        borderRadius: 20,
+        backgroundColor: palette.primaryBackgroundLight
+}
 })
 
 export default MovementList

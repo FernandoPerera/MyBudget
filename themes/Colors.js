@@ -1,5 +1,5 @@
 
-export const pallete = {
+export const palette = {
     primaryBackgroundLight : '#00A86A',
     primaryBackgroundDark : '#00783F',
 

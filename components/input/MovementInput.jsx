@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, View, Pressable, Platform} from 'react-native'
-import { pallete } from '../../themes/Colors'
+import { palette } from '../../themes/Colors'
 import { useState } from 'react'
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -117,10 +117,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 15,
         borderRadius:12,
         marginVertical: 20,
-        backgroundColor: pallete.secundaryBackgroundLight,
+        backgroundColor: palette.secundaryBackgroundLight,
       },
       descriptionInput: { 
-        backgroundColor: pallete.secundaryBackgroundLight,
+        backgroundColor: palette.secundaryBackgroundLight,
         borderRadius: 12,
         padding: 10,
         width: 150,
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
       pressableToAdd: {
         marginTop: 9,
         marginLeft: 23,
-        backgroundColor:pallete.primaryBackgroundDark,
+        backgroundColor:palette.primaryBackgroundDark,
         borderRadius: 12,
         padding: Platform.OS === "ios" ? 18.5 : 15
       }
