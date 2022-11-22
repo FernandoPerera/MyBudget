@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, Pressable, Image } from "react-native"
 
 import { palette } from "../../themes/Colors"
 
@@ -8,28 +8,48 @@ const Transaction = ({ id, movement, date, description, movementList }) => {
 
         <View style={styles.transactionOptions}>
 
-            <Text>Borrar</Text>
-            <Text>Editar</Text>
+            <Pressable style={styles.deleteTransaction}>
+                <Image style={{height: 40, width: 40}} source={require('../../assets/edit.png')}/>
+            </Pressable>
 
+            <View style={{borderColor: palette.secundaryBackgroundDark, borderTopWidth: 1, width: 35}}>
+                <Text> </Text>
+            </View>
+
+            <Pressable style={styles.modifyTransaction}>
+                <Image style={{height: 40, width: 40}} source={require('../../assets/delete.png')}/>
+            </Pressable>
+
+        </View>
+
+        <View style={{borderColor: palette.secundaryBackgroundDark, borderLeftWidth: 1, height: 200}}>
+            <Text> </Text>
         </View>
 
         <View style={styles.transactionDates}>
 
-            <View style={styles.dateContainer}>
+            <View>
 
-                <Text>fecha</Text>
-
-            </View>
-
-            <View style={styles.movementContainer}>
-
-                <Text>movimiento</Text>
+                <View style={styles.dateContainer}>
+                    <Text style={{textAlign: 'center'}}>{date}</Text>
+                </View>
 
             </View>
 
-            <View style={styles.descriptionContainer}>
+            <View>
 
-                <Text>descricion</Text>
+                <View style={styles.movementContainer}>
+                    <Text style={{textAlign: 'center'}}>{movement}</Text>
+                </View>
+
+            </View>
+
+            <View>
+
+                <View style={styles.descriptionContainer}>
+                    <Text style={{textAlign: 'center'}}>{description}</Text>
+                </View>
+
 
             </View>
 
@@ -45,30 +65,48 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         width: '90%',
-        height: '40%',
-        marginVertical: 25,
+        marginTop: 25,
+        marginHorizontal: 16,
         borderRadius: 20,
         backgroundColor: palette.primaryBackgroundLight
     },
     transactionOptions: {
         flex: 1,
         alignItems: 'flex-start',
-        marginLeft: 20
+        justifyContent: 'center',
+        marginHorizontal: 20
+    },
+    deleteTransaction: {
+        marginVertical: 40
+    },
+    modifyTransaction: {
+        marginVertical: 40
     },
     transactionDates: {
         flex: 5,
         alignItems: 'center',
-        justifyContent: 'center'
     },
     dateContainer: {
-        flex: 1,
-        marginTop: 40
+        backgroundColor: palette.secundaryBackgroundLight,
+        padding: 12,
+        borderRadius: 12,
+        height: 50,
+        width: 100
     },
     movementContainer: {
-        flex: 1
+        backgroundColor: palette.secundaryBackgroundLight,
+        padding: 15,
+        borderRadius: 12,
+        marginVertical: 20,
+        height: 50,
+        width: 100
     }, 
     descriptionContainer: {
-        flex: 1
+        backgroundColor: palette.secundaryBackgroundLight,
+        padding: 15,
+        borderRadius: 12,
+        height: 75,
+        width: 150 
     }
 })
 

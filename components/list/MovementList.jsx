@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image, StyleSheet, ScrollView } from "react-native"
+import { View, Text, Pressable, Image, StyleSheet, ScrollView, FlatList } from "react-native"
 
 import { palette } from '../../themes/Colors'
 import Transaction from "./Transaction"
@@ -29,15 +29,21 @@ const MovementList = ({ movementList, changeVisibilityOfModal }) => {
                             <Text style={{fontSize: 17}}>No se han añadido registros</Text>
                         </View>
                     :
-                        movementList.map( (transaction) => (
-                            <Transaction 
-                                key={transaction.id}
-                                id={transaction.id}
-                                movement={transaction.transaction}
-                                date={transaction.date}
-                                descrption={transaction.description}
-                                movementList={movementList}/>
-                        ))
+                        <FlatList style={{width: '100%'}}
+                            data={movementList}
+                            renderItem={( renderItem ) => {
+                                const { id, transaction, date, description } = renderItem.item
+                                return(
+                                    <Transaction 
+                                        key={id}
+                                        id={id}
+                                        movement={transaction}
+                                        date={date}
+                                        description={description}
+                                        movementList={movementList}/>
+                                )
+                        }
+                }/>
             }
 
         </View>
@@ -74,7 +80,7 @@ const styles = StyleSheet.create({
     transactionList: {
         flex: 5,
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         width: '85%',
         borderRadius: 25,
         marginBottom: 30,

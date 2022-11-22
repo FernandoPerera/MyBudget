@@ -28,6 +28,10 @@ export default function App() {
     setTransaction( transactionQuantity += parseFloat(movementQuantity))
   }
 
+  const deleteMovementHandler = () => {
+    
+  }
+
   const hideElementsForKeyboard = () => {
       setShow(!show)
       Keyboard.dismiss()
