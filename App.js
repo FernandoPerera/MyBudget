@@ -43,9 +43,8 @@ export default function App() {
     ])
     let transactionQuantity = 0
 
-    newMovement < 0
-      ?  transactionQuantity = transaction + parseFloat(newMovement)
-      : transactionQuantity = transaction - parseFloat(newMovement)
+    
+    transactionQuantity = transaction + parseFloat(newMovement)
 
     setTransaction( parseFloat(transactionQuantity) )
   }

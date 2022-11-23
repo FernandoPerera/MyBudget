@@ -13,7 +13,7 @@ Tenemos que desarrollar una aplicación de transacciones que conste de :
 
 <br/>
 
-- Se muestre la última transacción realizada.
+- Se muestre el total de transacciones realizadas.
 
 <br/>
 
