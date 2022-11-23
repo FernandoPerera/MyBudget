@@ -1,7 +1,6 @@
 import { Pressable, View, StyleSheet, TextInput, Text } from "react-native"
 import { useState } from "react"
 
-import DateTimePickerModal from "react-native-modal-datetime-picker"
 import { palette } from "../../themes/Colors"
 
 const EditMovement = ({ id, modifyMovement, setShow }) => {
