@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View, Pressable, Platform} from 'react-nat
 import { palette } from '../../themes/Colors'
 import { useState } from 'react'
 
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from "react-native-modal-datetime-picker"
 
 const MovementInput = ({ addMovement, hideElementsForKeyboard, show, setShow }) => {
 
@@ -48,11 +48,11 @@ const MovementInput = ({ addMovement, hideElementsForKeyboard, show, setShow }) 
   }
 
   const showDatePicker = () => {
-    setShowPicker(true);
+    setShowPicker(true)
   }
 
   const hideDatePicker = () => {
-    setShowPicker(false);
+    setShowPicker(false)
   }
 
   return (
@@ -69,7 +69,7 @@ const MovementInput = ({ addMovement, hideElementsForKeyboard, show, setShow }) 
 
         <Pressable style={styles.rowInputs} onPress={showDatePicker}>
 
-          <Text style={{marginTop: 6}}>Selecc. Fecha</Text>
+          <Text style={{marginTop: 6}}>Selec. Fecha</Text>
           
         </Pressable>
 
@@ -98,7 +98,7 @@ const MovementInput = ({ addMovement, hideElementsForKeyboard, show, setShow }) 
 
           <View style={styles.pressableToAdd}>
 
-              <Text style={{fontSize: 14.5}}>Añadir</Text>
+              <Text style={{fontSize: palette.primaryFontSize}}>Añadir</Text>
 
           </View>
 
@@ -115,25 +115,31 @@ const styles = StyleSheet.create({
         padding: 10,
         height: 50,
         marginHorizontal: 15,
-        borderRadius:12,
-        marginVertical: 20,
+        marginVertical: 15,
+        borderRadius: palette.primaryBorderRadius,
         backgroundColor: palette.secundaryBackgroundLight,
+        borderColor: palette.containersBorderColor,
+        borderWidth: palette.borderWidth
       },
       descriptionInput: { 
-        backgroundColor: palette.secundaryBackgroundLight,
-        borderRadius: 12,
         padding: 10,
         width: 150,
         height: Platform.OS === 'ios' ? 75 : 60,
         marginLeft: 15,
-        marginBottom: 50
+        marginBottom: 40,
+        borderRadius: palette.primaryBorderRadius,
+        backgroundColor: palette.secundaryBackgroundLight,
+        borderColor: palette.containersBorderColor,
+        borderWidth: palette.borderWidth
       },
       pressableToAdd: {
         marginTop: 9,
         marginLeft: 23,
+        padding: Platform.OS === "ios" ? 18.5 : 15,
+        borderRadius: palette.primaryBorderRadius,
         backgroundColor:palette.primaryBackgroundDark,
-        borderRadius: 12,
-        padding: Platform.OS === "ios" ? 18.5 : 15
+        borderColor: palette.containersBorderColor,
+        borderWidth: palette.borderWidth
       }
 })
 

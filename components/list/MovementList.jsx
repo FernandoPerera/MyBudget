@@ -3,7 +3,7 @@ import { View, Text, Pressable, Image, StyleSheet, ScrollView, FlatList } from "
 import { palette } from '../../themes/Colors'
 import Transaction from "./Transaction"
 
-const MovementList = ({ movementList, changeVisibilityOfModal }) => {
+const MovementList = ({ movementList, changeVisibilityOfModal, deleteMovement, modifyMovement }) => {
   return (
     
     <View style={styles.modalContainer}>
@@ -15,7 +15,7 @@ const MovementList = ({ movementList, changeVisibilityOfModal }) => {
             </Pressable>
 
             <View style={styles.headerName}>
-                <Text style={{fontSize: 16}}>Lista de Movimientos</Text>
+                <Text style={{fontSize: palette.secundaryFontSize}}>Lista de Movimientos</Text>
             </View>
 
         </View>
@@ -26,24 +26,25 @@ const MovementList = ({ movementList, changeVisibilityOfModal }) => {
                 movementList.length == 0
                     ? 
                         <View style={styles.emptyList}>
-                            <Text style={{fontSize: 17}}>No se han añadido registros</Text>
+                            <Text style={{fontSize: palette.secundaryFontSize}}>No se han añadido movimientos</Text>
                         </View>
                     :
                         <FlatList style={{width: '100%'}}
                             data={movementList}
                             renderItem={( renderItem ) => {
-                                const { id, transaction, date, description } = renderItem.item
+                                const { id, transactionQuantity, date, description } = renderItem.item
                                 return(
                                     <Transaction 
                                         key={id}
                                         id={id}
-                                        movement={transaction}
+                                        movement={transactionQuantity}
                                         date={date}
                                         description={description}
-                                        movementList={movementList}/>
+                                        deleteMovement={deleteMovement}
+                                        modifyMovement={modifyMovement}/>
                                 )
-                        }
-                }/>
+                            }
+                        }/>
             }
 
         </View>
@@ -66,34 +67,38 @@ const styles = StyleSheet.create({
     },
     headerName: {
         padding: 20,
-        borderRadius: 12,
-        marginLeft: 35,
+        marginLeft: 30,
         marginRight: 75,
-        backgroundColor: palette.secundaryBackgroundDark
+        borderRadius: palette.primaryBorderRadius,
+        backgroundColor: palette.primaryBackgroundLight,
+        borderColor: palette.containersBorderColor,
+        borderWidth: palette.borderWidth,
     },
     exitModal: {
-        borderRadius: 100,
         width: 60,
         height: 60,
-        padding: 10
     },
     transactionList: {
         flex: 5,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         width: '85%',
-        borderRadius: 25,
         marginBottom: 30,
-        backgroundColor:palette.secundaryBackgroundDark
+        borderRadius: palette.secundaryBorderRadius,
+        backgroundColor:palette.secundaryBackgroundDark,
+        borderColor: palette.containersBorderColor,
+        borderWidth: palette.borderWidth,
     },
     emptyList: {
         alignItems:'center',
         justifyContent: 'center',
         width: '85%',
-        height: '60%',
+        height: '20%',
         marginVertical: 25,
-        borderRadius: 20,
-        backgroundColor: palette.primaryBackgroundLight
+        borderRadius: palette.secundaryBorderRadius,
+        backgroundColor: palette.primaryBackgroundLight,
+        borderColor: palette.containersBorderColor,
+        borderWidth: palette.borderWidth,
 }
 })
 

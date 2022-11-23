@@ -21,15 +21,33 @@ export default function App() {
   const addMovementHandler = (movementQuantity, movementDate, movementDescription) => {
     setMovementList( currentItems => [
       ...currentItems,(
-        { id: uuidv4(), transaction:movementQuantity, date: movementDate, description: movementDescription}
+        { id: uuidv4(), transactionQuantity:movementQuantity, date: movementDate, description: movementDescription}
       )
     ])
     let transactionQuantity = transaction
     setTransaction( transactionQuantity += parseFloat(movementQuantity))
   }
 
-  const deleteMovementHandler = () => {
+  const deleteMovementHandler = (id) => {
+    setMovementList( () => movementList.filter( (movement) => movement.id !== id) )
+  }
+
+  const modifyMovementHandler = (id, newMovement, newDate, newDescription) => {
+
+    deleteMovementHandler(id)
     
+    setMovementList( currentItems => [
+      ...currentItems,(
+        { id: id, transactionQuantity: newMovement, date: newDate, description: newDescription}
+      )
+    ])
+    let transactionQuantity = 0
+
+    newMovement < 0
+      ?  transactionQuantity = transaction + parseFloat(newMovement)
+      : transactionQuantity = transaction - parseFloat(newMovement)
+
+    setTransaction( parseFloat(transactionQuantity) )
   }
 
   const hideElementsForKeyboard = () => {
@@ -44,76 +62,77 @@ export default function App() {
   return (
     <View style={styles.container}>
 
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{flex: 1, width: '100%'}}
-          keyboardVerticalOffset={Platform.OS === "ios" ? -60 : -160}>
-          
-            <View style={styles.balanceContainer}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{flex: 1, width: '100%'}}
+        keyboardVerticalOffset={Platform.OS === "ios" ? -60 : -160}>
+        
+        <View style={styles.balanceContainer}>
 
-              <View style={styles.title}>
+          <View style={styles.title}>
 
-                <Text style={{fontSize:18}}>MyBudget</Text>
+            <Text style={{fontSize:palette.titleFontSize}}>MyBudget</Text>
 
-              </View>
+          </View>
 
-              <View style={styles.transactionContainer}>
+          <View style={styles.transactionContainer}>
 
-                {
-                movementList == 0
-                  ? <Text style={{textAlign:'center', fontSize: 17}}>
-                      No se han realizado transacciones
+            {
+            movementList == 0
+              ? <Text style={{textAlign:'center', fontSize: Platform.OS === 'ios' ? palette.secundaryFontSize : 17}}>
+                  No se han realizado transacciones
+                </Text>
+              : transaction >= 0 
+                ? 
+                  <View style={{flexDirection: 'row'}}>
+                    <Image style={styles.imageStyle} source={require('./assets/bills.png')}/>
+                    <Text style={{flex: 1, textAlign:'center', fontSize: 30, marginTop: 13, color: palette.primaryBackgroundDark}}>
+                      {transaction} €
                     </Text>
-                  : transaction >= 0 
-                    ? 
-                      <View style={{flexDirection: 'row'}}>
-                        <Image style={styles.imageStyle} source={require('./assets/bills.png')}/>
-                        <Text style={{flex: 1, textAlign:'center', fontSize: 30, marginTop: 13, color: palette.primaryBackgroundDark}}>
-                          {transaction} €
-                        </Text>
-                      </View>
-                    : 
-                      <View style={{flexDirection: 'row'}}>
-                        <Image style={styles.imageStyle} source={require('./assets/money.png')}/>
+                  </View>
+                : 
+                  <View style={{flexDirection: 'row'}}>
+                    <Image style={styles.imageStyle} source={require('./assets/money.png')}/>
 
-                        <Text style={{flex: 1, textAlign:'center', fontSize: 30, marginTop: 13, color: '#D12222'}}>
-                          {transaction} €
-                        </Text>
-                      </View>
-                }
+                    <Text style={{flex: 1, textAlign:'center', fontSize: 30, marginTop: 13, color: '#D12222'}}>
+                      {transaction} €
+                    </Text>
+                  </View>
+            }
 
-              </View>
+          </View>
 
-            </View>
+        </View>
 
-            <View style={styles.inputContainer}>
+        <View style={styles.inputContainer}>
 
-              <View style={styles.datesContainer}>
+          <View style={styles.datesContainer}>
 
-                <View style={styles.listbuttom}>
+            <View style={styles.listbuttom}>
 
-                  {show ? <Pressable style={styles.pressableToList} onPress={changeVisibilityOfModal}>
-                              <Text style={{fontSize: 15}}>Mostrar lista</Text>
-                          </Pressable>
-                          : null}
-
-                </View>
-                
-                <Modal 
-                  animationType='fade'
-                  visible={showModal}>
-                
-                  <MovementList movementList={movementList} changeVisibilityOfModal={changeVisibilityOfModal}/>
-
-                </Modal>
-
-                <MovementInput hideElementsForKeyboard={hideElementsForKeyboard}
-                    show={show} setShow={setShow} addMovement={addMovementHandler}/>
-
-              </View>
+              {show ? <Pressable style={styles.pressableToList} onPress={changeVisibilityOfModal}>
+                          <Text style={{fontSize: palette.primaryFontSize}}>Mostrar lista</Text>
+                      </Pressable>
+                      : null}
 
             </View>
-          </KeyboardAvoidingView>
+            
+            <Modal 
+              animationType='fade'
+              visible={showModal}>
+            
+              <MovementList movementList={movementList} changeVisibilityOfModal={changeVisibilityOfModal}
+                            deleteMovement={deleteMovementHandler} modifyMovement={modifyMovementHandler}/>
+
+            </Modal>
+
+            <MovementInput hideElementsForKeyboard={hideElementsForKeyboard}
+                show={show} setShow={setShow} addMovement={addMovementHandler}/>
+
+          </View>
+
+        </View>
+      </KeyboardAvoidingView>
       
     </View>
   )
@@ -122,26 +141,28 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: palette.secundaryBackgroundDark,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: palette.secundaryBackgroundDark
   },
   balanceContainer: {
     flex: 1,
-    backgroundColor: palette.primaryBackgroundLight,
+    alignItems: 'center',
     width: '100%',
-    borderBottomLeftRadius: 40,
-    borderBottomRightRadius: 40,
-    alignItems: 'center'
+    borderBottomLeftRadius: palette.secundaryBorderRadius,
+    borderBottomRightRadius: palette.secundaryBorderRadius,
+    backgroundColor: palette.primaryBackgroundLight
   },
   title: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     width: '85%',
-    borderRadius: 12,
     marginTop: 55,
-    backgroundColor: palette.primaryBackgroundDark
+    borderRadius: palette.primaryBorderRadius,
+    backgroundColor: palette.primaryBackgroundDark,
+    borderColor: palette.containersBorderColor,
+    borderWidth: 3
   },
   transactionContainer: {
     flex: 2,
@@ -149,9 +170,11 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     width: 250,
     height: 150,
-    borderRadius: 12,
     marginVertical: 70,
-    backgroundColor: palette.secundaryBackgroundLight
+    borderRadius: palette.primaryBorderRadius,
+    backgroundColor: palette.secundaryBackgroundLight,
+    borderColor: palette.containersBorderColor,
+    borderWidth: palette.borderWidth
   },  
   imageStyle: {
     flex: 0.5,
@@ -164,10 +187,12 @@ const styles = StyleSheet.create({
   },
   datesContainer: {
     flex: 2,
-    backgroundColor: palette.primaryBackgroundLight,
     width: '75%',
-    borderRadius: 15,
     marginVertical: 50,
+    borderRadius: palette.primaryBorderRadius,
+    backgroundColor: palette.primaryBackgroundLight,
+    borderColor: palette.containersBorderColor,
+    borderWidth: palette.borderWidth
   },
   listbuttom: {
     flex: 1, 
@@ -175,9 +200,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pressableToList: {
-    backgroundColor: palette.primaryBackgroundDark,
-    borderRadius: 12,
     padding: 20,
-    marginBottom: 12
+    marginBottom: 12,
+    borderRadius: palette.primaryBorderRadius,
+    backgroundColor: palette.primaryBackgroundDark,
+    borderColor: palette.containersBorderColor,
+    borderWidth: palette.borderWidth
   },
 });
